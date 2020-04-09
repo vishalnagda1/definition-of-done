@@ -14,7 +14,7 @@ const requestHandler = (request, response) => {
     switch(pathname) {
         case '/':
         case '/about':
-            const file = readHTML("./views/theme.html")
+            const file = readHTML("./views/about.html")
             response.end(file);
             break;
         default:
