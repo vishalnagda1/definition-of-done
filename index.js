@@ -1,22 +1,20 @@
 const http = require("http");
 const url = require("url");
-const fs = require("fs");
-
-const readHTML = (path, response) => {
-    const file = fs.readFileSync(path);
-    if(file) return file;
-    response.end();
-};
+const {fetchFile} = require("./common");
+const checklist = require("./views/checklist")
 
 const requestHandler = (request, response) => {
     const {pathname, query} = url.parse(request.url);
 
     switch(pathname) {
-        case '/':
-        case '/about':
-            const file = readHTML("./views/about.html")
+        case "/":
+        case "/about":
+            const file = fetchFile("./views/about.html", response)
             response.end(file);
             break;
+        
+        case "/checklist":
+            checklist.view(request, response);
         default:
             response.end();
     }
