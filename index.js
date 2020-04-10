@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const {fetchFile} = require("./common");
 const checklist = require("./views/checklist")
 const done = require("./views/done")
+const {create} = require("./controllers/checklist");
 
 mongoose.connect(process.env.DB_CONN, {useNewUrlParser: true, useUnifiedTopology: true, keepAlive: 1});
 mongoose.connection.on("error", () => {
@@ -28,6 +29,10 @@ const requestHandler = (request, response) => {
         
         case "/done":
             done.view(request, response);
+            break;
+        
+        case "/add":
+            create(request, response);
             break;
 
         default:
