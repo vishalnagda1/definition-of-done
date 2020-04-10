@@ -4,7 +4,7 @@
   "description": "Definition of Done is a review checklist for a team, where the team can add a task to be reviewed, mark tasks as done, and also delete task if required.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon -r dotenv/config .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
