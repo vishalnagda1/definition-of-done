@@ -26,6 +26,8 @@ const requestHandler = (request, response) => {
     }
 };
 
-http.createServer(requestHandler).listen(3000, () => {
-    console.log("Server is listening at http://0.0.0.0:3000");
+const PORT = process.env.PORT || 3000;
+
+http.createServer(requestHandler).listen(PORT, () => {
+    console.log(`Server is listening at http://0.0.0.0:${PORT}`);
 });
