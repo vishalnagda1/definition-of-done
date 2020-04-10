@@ -1,9 +1,16 @@
 const {renderHTML} = require("../common");
+const {getTasks} = require("../controllers/checklist");
 
-exports.view = (request, response) => {
-    const data = `<table class="table table-dark">
-            <tr><td>1. <del>Dummy text to represent completed task one.</del></td></tr>
-            <tr><td>2. <del>Dummy text to represent completed task two.</del></td></tr>
+exports.view = async (request, response) => {
+        const tasks = await getTasks(true);
+
+        let taskData = "";
+        tasks.map((task, index) => {
+            taskData += `<tr><td>${index+1}. <del>${task.task}</del></td></tr>`;
+        });
+
+        const data = `<table class="table table-dark">
+            ${taskData}
         </table>`
         renderHTML('Done', data, response);
 }
