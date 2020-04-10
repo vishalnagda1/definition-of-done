@@ -1,28 +1,35 @@
 const {renderHTML} = require("../common");
+const {getTasks} = require("../controllers/checklist");
 
-exports.view = (request, response) => {
-    const data = `<table class="table table-dark">
-            <tr>
-                <form action="/about" method="POST">
-                    <td><input type="text" class="form-control" aria-label="Sizing example input"
-                            aria-describedby="inputGroup-sizing-sm" /></td>
+exports.view = async (request, response) => {
+    const tasks = await getTasks(false);
+
+    let taskData = ""
+    tasks.map((task, index) => {
+        taskData += `<tr>
+                    <td>${index+1}. ${task.task} (Created at ${new Date(task.createdAt).toDateString()})</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="submit" class="btn btn-warning">All Done</button>
-                            <button type="submit" class="btn btn-success">Add New</button>
+                            <button type="button" dataId="${task._id}" class="btn btn-warning task-done">Its Done</button>
+                            <button type="button" dataId="${task._id}" class="btn btn-danger task-delete">Delete</button>
                         </div>
                     </td>
-                </form>
-            </tr>
-            <tr>
-                <td>1. Dummy text to represent the task details in brief.</td>
-                <td>
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="submit" class="btn btn-warning">Its Done</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </div>
-                </td>
-            </tr>
-        </table>`
-        renderHTML('Checklist', data, response);
+                </tr>`;
+    });
+    
+    const data = `<table class="table table-dark">
+        <tr>
+            <td><input type="text" class="form-control" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-sm" /></td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-warning all-task-done">All Done</button>
+                    <button type="button" class="btn btn-success add-new-task">Add New</button>
+                </div>
+            </td>
+        </tr>
+        ${taskData}
+    </table>`
+    
+    renderHTML('Checklist', data, response);
 }
