@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/vishalnagda1/definition-of-done#readme",
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "nodemon": "^2.0.3"
   }
 }
