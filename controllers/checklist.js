@@ -24,3 +24,15 @@ module.exports.getTasks = async (complete) => {
     const tasks = await Task.find({complete});
     return tasks;
 }
+
+module.exports.markAllComplete = (request, response) => {
+    Task.updateMany({complete: false}, {complete: true}, (err, data) => {
+        if(err) {
+            console.error(err);
+            response.end("404");
+        } else {
+            response.writeHead(308, {"Location": "/checklist"});
+            response.end();
+        }
+    });
+}
