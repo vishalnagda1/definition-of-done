@@ -12,7 +12,6 @@ module.exports.create = (request, response) => {
                 console.error(err);
                 response.end("404");
             } else {
-                console.log(`data`, data);
                 response.writeHead(308, {"Location": "/checklist"});
                 response.end();
             }
@@ -35,4 +34,38 @@ module.exports.markAllComplete = (request, response) => {
             response.end();
         }
     });
+}
+
+module.exports.markComplete = (request, response) => {
+    let dataQuery = ""
+    request.on("data", data => {dataQuery += data});
+    request.on("end", () => {
+        const {id} = querystring.parse(dataQuery);
+        Task.update({_id: id}, {complete: true}, (err, data) => {
+            if(err) {
+                console.error(err);
+                response.end("404");
+            } else {
+                response.writeHead(308, {"Location": "/checklist"});
+                response.end();
+            }
+        });
+    })
+}
+
+module.exports.deleteTask = (request, response) => {
+    let dataQuery = ""
+    request.on("data", data => {dataQuery += data});
+    request.on("end", () => {
+        const {id} = querystring.parse(dataQuery);
+        Task.deleteOne({_id: id}, (err, data) => {
+            if(err) {
+                console.error(err);
+                response.end("404");
+            } else {
+                response.writeHead(308, {"Location": "/checklist"});
+                response.end();
+            }
+        });
+    })
 }
