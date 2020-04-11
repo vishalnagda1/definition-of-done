@@ -23,6 +23,18 @@
         function allDone() {
             sendData("PUT", "/all-done", null, "/checklist");
         }
+
+        function markDone(button) {
+            const id = button.getAttribute("dataId");
+            const data = `id=${id}`;
+            sendData("PUT", "/task-done", data, "/checklist");
+        }
+
+        function deleteTask(button) {
+            const id = button.getAttribute("dataId");
+            const data = `id=${id}`;
+            sendData("DELETE", "/delete", data, "/checklist");
+        }
     </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
