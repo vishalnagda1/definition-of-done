@@ -16,7 +16,7 @@ mongoose.set("debug", process.env.DEBUG_MONGO);
 
 const requestHandler = (request, response) => {
     const {pathname} = url.parse(request.url);
-    logger.info(pathname);
+    (pathname !== "/favicon.ico") && logger.info(pathname);
 
     switch(pathname) {
         case "/":
