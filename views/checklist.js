@@ -19,12 +19,12 @@ exports.view = async (request, response) => {
     
     const data = `<table class="table table-dark">
         <tr>
-            <td><input type="text" class="form-control" aria-label="Sizing example input"
+            <td><input type="text" class="form-control" id="taskInput" aria-label="Task input"
                     aria-describedby="inputGroup-sizing-sm" /></td>
             <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-warning all-task-done">All Done</button>
-                    <button type="button" class="btn btn-success add-new-task">Add New</button>
+                    <button type="button" onclick="allDone()" class="btn btn-warning">All Done</button>
+                    <button type="button" onclick="addNewTask()" class="btn btn-success">Add New</button>
                 </div>
             </td>
         </tr>
