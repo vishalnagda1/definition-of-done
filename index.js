@@ -5,13 +5,14 @@ const mongoose = require("mongoose");
 const {fetchFile} = require("./common");
 const checklist = require("./views/checklist")
 const done = require("./views/done")
-const {create, markAllComplete} = require("./controllers/checklist");
+const {create, markAllComplete, markComplete, deleteTask} = require("./controllers/checklist");
 
 mongoose.connect(process.env.DB_CONN, {useNewUrlParser: true, useUnifiedTopology: true, keepAlive: 1});
 mongoose.connection.on("error", () => {
     console.error("Failed to connect to database");
 });
-mongoose.set("debug", true);
+
+mongoose.set("debug", process.env.DEBUG_MONGO);
 
 const requestHandler = (request, response) => {
     const {pathname, query} = url.parse(request.url);
@@ -37,6 +38,14 @@ const requestHandler = (request, response) => {
         
         case "/all-done":
             markAllComplete(request, response);
+            break;
+
+        case "/task-done":
+            markComplete(request, response);
+            break;
+        
+        case "/delete":
+            deleteTask(request, response);
             break;
 
         default:
