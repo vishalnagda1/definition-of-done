@@ -1,4 +1,29 @@
     </div>
+    <script type="text/javascript">
+        function sendData(method, endpoint, data, redirection=null) {
+            const xhr = new XMLHttpRequest();
+            xhr.open(method, endpoint, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                if(redirection) {
+                    location.replace(`${location.origin}${redirection}`);
+                }
+            }
+            }
+            xhr.send(data);
+        }
+
+        function addNewTask() {
+            const task = document.getElementById("taskInput");
+            const data = `task=${task.value}`;
+            sendData("POST", "/add", data, "/checklist");
+        }
+
+        function allDone() {
+            sendData("PUT", "/all-done", null, "/checklist");
+        }
+    </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
