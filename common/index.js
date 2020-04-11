@@ -1,4 +1,5 @@
 const fs = require("fs");
+const logger = require("./logger");
 
 const fetchFile = (path, response) => {
     const file = fs.readFileSync(path);
@@ -41,4 +42,4 @@ const renderHTML = (title, dataHTML, response) => {
     response.end(`${headerPage}${htmlData}${footerPage}`)
 }
 
-module.exports = {fetchFile, header, footer, commonView, renderHTML};
+module.exports = {fetchFile, renderHTML, logger};
