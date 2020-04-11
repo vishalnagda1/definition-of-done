@@ -21,10 +21,10 @@
   },
   "homepage": "https://github.com/vishalnagda1/definition-of-done#readme",
   "devDependencies": {
-    "dotenv": "^8.2.0",
     "nodemon": "^2.0.3"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "mongoose": "^5.9.7",
     "winston": "^3.2.1"
   }
