@@ -1,15 +1,15 @@
-const Task = require("../models/checklist");
 const querystring = require("querystring");
+const Task = require("../models/checklist");
+const {logger} = require("../common");
 
 module.exports.create = (request, response) => {
     let dataQuery = ""
     request.on("data", data => {dataQuery += data});
     request.on("end", () => {
         const {task} = querystring.parse(dataQuery);
-        console.log("task", task);
         new Task({task}).save((err, data) => {
             if(err) {
-                console.error(err);
+                logger.error(err);
                 response.end("404");
             } else {
                 response.writeHead(308, {"Location": "/checklist"});
@@ -27,7 +27,7 @@ module.exports.getTasks = async (complete) => {
 module.exports.markAllComplete = (request, response) => {
     Task.updateMany({complete: false}, {complete: true}, (err, data) => {
         if(err) {
-            console.error(err);
+            logger.error(err);
             response.end("404");
         } else {
             response.writeHead(308, {"Location": "/checklist"});
@@ -43,7 +43,7 @@ module.exports.markComplete = (request, response) => {
         const {id} = querystring.parse(dataQuery);
         Task.update({_id: id}, {complete: true}, (err, data) => {
             if(err) {
-                console.error(err);
+                logger.error(err);
                 response.end("404");
             } else {
                 response.writeHead(308, {"Location": "/checklist"});
@@ -60,7 +60,7 @@ module.exports.deleteTask = (request, response) => {
         const {id} = querystring.parse(dataQuery);
         Task.deleteOne({_id: id}, (err, data) => {
             if(err) {
-                console.error(err);
+                logger.error(err);
                 response.end("404");
             } else {
                 response.writeHead(308, {"Location": "/checklist"});

@@ -2,20 +2,21 @@ const http = require("http");
 const url = require("url");
 const mongoose = require("mongoose");
 
-const {fetchFile} = require("./common");
+const {fetchFile, logger} = require("./common");
 const checklist = require("./views/checklist")
 const done = require("./views/done")
 const {create, markAllComplete, markComplete, deleteTask} = require("./controllers/checklist");
 
 mongoose.connect(process.env.DB_CONN, {useNewUrlParser: true, useUnifiedTopology: true, keepAlive: 1});
 mongoose.connection.on("error", () => {
-    console.error("Failed to connect to database");
+    logger.error("Failed to connect to database");
 });
 
 mongoose.set("debug", process.env.DEBUG_MONGO);
 
 const requestHandler = (request, response) => {
-    const {pathname, query} = url.parse(request.url);
+    const {pathname} = url.parse(request.url);
+    logger.info(pathname);
 
     switch(pathname) {
         case "/":
@@ -56,5 +57,5 @@ const requestHandler = (request, response) => {
 const PORT = process.env.PORT || 3000;
 
 http.createServer(requestHandler).listen(PORT, () => {
-    console.log(`Server is listening at http://0.0.0.0:${PORT}`);
+    logger.info(`Server is listening at http://0.0.0.0:${PORT}`);
 });
